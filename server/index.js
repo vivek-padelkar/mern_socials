@@ -11,7 +11,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import { fileURLToPath } from 'url'
 import { register } from './controller/auth.controller.js'
 import authRoutes from './routes/auth.route.js'
-import userRoutes from './routes/user.route.js'
+import userRoutes from './routes/users.route'
 
 dotenv.config()
 conectDb()
