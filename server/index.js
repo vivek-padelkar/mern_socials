@@ -6,11 +6,12 @@ import morgan from 'morgan'
 import dotenv from 'dotenv'
 import helmet from 'helmet'
 import path from 'path'
+import { conectDb } from './config/dbConfig.js'
+import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import { fileURLToPath } from 'url'
 import { register } from './controller/auth.controller.js'
 import authRoutes from './routes/auth.route.js'
-import { conectDb } from './config/dbConfig.js'
-import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import userRoutes from './routes/user.route.js'
 
 dotenv.config()
 conectDb()
@@ -42,6 +43,7 @@ const upload = multer({ storege })
 app.use('/api/auth/register', upload.single('picture'), register)
 
 app.use('/api/auth', authRoutes)
+app.use('/api/users', userRoutes)
 
 app.listen(process.env.PORT, () => {
   console.log('Running your socials backend ON port ' + PORT)
