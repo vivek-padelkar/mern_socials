@@ -11,8 +11,10 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import { fileURLToPath } from 'url'
 import { register } from './controller/auth.controller.js'
 import authRoutes from './routes/auth.route.js'
-import userRoutes from './routes/users.route'
-
+import userRoutes from './routes/users.route.js'
+import postRoutes from './routes/post.routes.js'
+import { createPost } from './controller/post.controller.js'
+import { verifyToken } from './middleware/verifyToken.js'
 dotenv.config()
 conectDb()
 const app = express()
@@ -41,9 +43,11 @@ const storege = multer.diskStorage({
 const upload = multer({ storege })
 
 app.use('/api/auth/register', upload.single('picture'), register)
+app.post('/api/posts', verifyToken, upload.single('picture'), createPost)
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/posts', postRoutes)
 
 app.listen(process.env.PORT, () => {
   console.log('Running your socials backend ON port ' + PORT)

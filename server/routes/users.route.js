@@ -8,7 +8,7 @@ import { verifyToken } from '../middleware/verifyToken.js'
 const router = express.Router()
 
 //READ
-router.route('/:id').get(verifyToken, getUser).patch()
+router.route('/:id').get(verifyToken, getUser)
 //GET USER FRIENDS
 router.route('/:id/friends').get(verifyToken, getUserFriends)
 //UPDATE
