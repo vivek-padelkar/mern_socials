@@ -1,5 +1,4 @@
 import express from 'express'
-import mongoose from 'mongoose'
 import cors from 'cors'
 import multer from 'multer'
 import morgan from 'morgan'
@@ -10,11 +9,12 @@ import { conectDb } from './config/dbConfig.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import { fileURLToPath } from 'url'
 import { register } from './controller/auth.controller.js'
-import authRoutes from './routes/auth.route.js'
-import userRoutes from './routes/users.route.js'
+import authRoutes from './routes/auth.routes.js'
+import userRoutes from './routes/users.routes.js'
 import postRoutes from './routes/post.routes.js'
 import { createPost } from './controller/post.controller.js'
 import { verifyToken } from './middleware/verifyToken.js'
+
 dotenv.config()
 conectDb()
 const app = express()

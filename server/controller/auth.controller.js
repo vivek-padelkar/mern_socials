@@ -7,7 +7,7 @@ import { generateToken } from '../utils/genToken.js'
 export const register = asyncHandler(async (req, res) => {
   const {
     firstName,
-    lastname,
+    lastName,
     email,
     password,
     friends,
@@ -20,7 +20,7 @@ export const register = asyncHandler(async (req, res) => {
 
   const newUser = new User({
     firstName,
-    lastname,
+    lastName,
     email,
     password: passwordHash,
     friends,

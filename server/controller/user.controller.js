@@ -1,14 +1,14 @@
-import User from '../model/User'
+import User from '../model/User.js'
 import asyncHandler from 'express-async-handler'
 
-const getUser = asyncHandler(async (req, res) => {
+export const getUser = asyncHandler(async (req, res) => {
   const { id } = req.params
   const user = await User.findById(id)
   if (user) res.json({ user })
   return res.json({ message: 'User not found' }).statusCode(404)
 })
 
-const getUserFriends = asyncHandler(async (req, res) => {
+export const getUserFriends = asyncHandler(async (req, res) => {
   const { id } = req.params
   const user = await User.findById(id)
 
@@ -21,7 +21,7 @@ const getUserFriends = asyncHandler(async (req, res) => {
   res.json({ formattedFriends })
 })
 
-const addRemoveFriends = asyncHandler(async (req, res) => {
+export const addRemoveFriends = asyncHandler(async (req, res) => {
   const { id, friendid } = req.params
   const user = await User.findById(id)
   const friend = await User.findById(friendid)
@@ -47,9 +47,3 @@ const addRemoveFriends = asyncHandler(async (req, res) => {
   )
   res.json({ formattedFriends })
 })
-
-exports = {
-  getUser,
-  getUserFriends,
-  addRemoveFriends,
-}
