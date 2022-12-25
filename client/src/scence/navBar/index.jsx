@@ -73,12 +73,10 @@ const NavBarPage = () => {
           </IconButton>
         </FlexBetween>
       )}
-
       {isNonMobileScreen ? (
-        <FlexBetween gap="2rem">
+        <FlexBetween>
           <IconButton
             onClick={() => {
-              console.log('hi')
               dispatch(setMode())
             }}
           >
@@ -91,29 +89,20 @@ const NavBarPage = () => {
           <Message sx={{ fontSize: '25px' }} />
           <Notifications sx={{ fontSize: '25px' }} />
           <Help sx={{ fontSize: '25px' }} />
+
           <FormControl variant="standard" value={fullName}>
             <select
               value={fullName}
-              sx={{
-                background: primaryLight,
-                width: '150px',
-                borderRadius: '0.25rem',
-                padding: '1rem',
-
-                '& .MuiSvgIcon-root': {
-                  pr: '0.25rem',
-                  width: '3rem',
-                },
-                '& .MuiSelect-select:focous': {
-                  backgroundColor: neutralLight,
-                },
-              }}
-              input={<InputBase />}
+              labelId="demo-simple-select-autowidth-label"
+              id="demo-simple-select-autowidth"
+              autoWidth
             >
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem value="Log out" onClick={() => dispatch(setLogout())} />
+              <MenuItem value="logout" onClick={() => dispatch(setLogout())}>
+                Log out{' '}
+              </MenuItem>
             </select>
           </FormControl>
         </FlexBetween>
@@ -126,7 +115,7 @@ const NavBarPage = () => {
           <Menu />
         </IconButton>
       )}
-
+      {/* mobile view */}
       {!isNonMobileScreen && isModbileMenuToggle && (
         <Box
           position={'fixed'}
@@ -157,7 +146,6 @@ const NavBarPage = () => {
           >
             <IconButton
               onClick={() => {
-                console.log('hi')
                 dispatch(setMode())
               }}
             >
@@ -201,7 +189,6 @@ const NavBarPage = () => {
           </FlexBetween>
         </Box>
       )}
-      
     </FlexBetween>
   )
 }
