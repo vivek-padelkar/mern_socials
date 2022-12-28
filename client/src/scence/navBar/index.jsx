@@ -89,13 +89,24 @@ const NavBarPage = () => {
           <Message sx={{ fontSize: '25px' }} />
           <Notifications sx={{ fontSize: '25px' }} />
           <Help sx={{ fontSize: '25px' }} />
-
-          <FormControl variant="standard" value={fullName}>
-            <select
+          <FormControl>
+            <Select
               value={fullName}
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth"
-              autoWidth
+              sx={{
+                backgroundColor: neutralLight,
+                width: '150px',
+                borderRadius: '0.25rem',
+                p: '0.25rem 1rem',
+
+                '& .MuiSvgIcon-root': {
+                  pr: '0.25rem',
+                  width: '3rem',
+                },
+                '& .MuiSelect-select:focous': {
+                  backgroundColor: neutralLight,
+                },
+              }}
+              input={<InputBase />}
             >
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
@@ -103,7 +114,7 @@ const NavBarPage = () => {
               <MenuItem value="logout" onClick={() => dispatch(setLogout())}>
                 Log out{' '}
               </MenuItem>
-            </select>
+            </Select>
           </FormControl>
         </FlexBetween>
       ) : (
@@ -115,6 +126,7 @@ const NavBarPage = () => {
           <Menu />
         </IconButton>
       )}
+
       {/* mobile view */}
       {!isNonMobileScreen && isModbileMenuToggle && (
         <Box
@@ -142,7 +154,7 @@ const NavBarPage = () => {
             flexDirection="column"
             justifyContent={'center'}
             alignItems="center"
-            gap="3rem"
+            gap="2rem"
           >
             <IconButton
               onClick={() => {
@@ -158,14 +170,15 @@ const NavBarPage = () => {
             <Message sx={{ fontSize: '25px' }} />
             <Notifications sx={{ fontSize: '25px' }} />
             <Help sx={{ fontSize: '25px' }} />
-            <FormControl variant="standard" value={fullName}>
-              <select
+            <FormControl>
+              <Select
+                labelId="demo-simple-select-label"
                 value={fullName}
                 sx={{
-                  background: primaryLight,
+                  backgroundColor: neutralLight,
                   width: '150px',
                   borderRadius: '0.25rem',
-                  padding: '1rem',
+                  p: '0.25rem 1rem',
 
                   '& .MuiSvgIcon-root': {
                     pr: '0.25rem',
@@ -180,11 +193,10 @@ const NavBarPage = () => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem
-                  value="Log out"
-                  onClick={() => dispatch(setLogout())}
-                />
-              </select>
+                <MenuItem value="logout" onClick={() => dispatch(setLogout())}>
+                  Log out
+                </MenuItem>
+              </Select>
             </FormControl>
           </FlexBetween>
         </Box>

@@ -8,6 +8,19 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
 import { themeSettings } from 'theme'
 import NavBarPage from 'scence/navBar'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure({
+  position: 'top-center',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'colored',
+})
 
 function App() {
   const mode = useSelector((state) => state.mode)
@@ -18,8 +31,9 @@ function App() {
       <BrowserRouter>
         <CssBaseline />
         <ThemeProvider theme={theme}>
+          {/* <NavBarPage /> */}
           <Routes>
-            <Route path="/" element={<NavBarPage />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/profile/:userid" element={<ProfilePage />} />
           </Routes>

@@ -37,14 +37,16 @@ export const register = asyncHandler(async (req, res) => {
   })
 })
 
-export const login = async (req, res) => {
+export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
-  if (!user) res.json({ message: 'Username or password is incorrect' })
+
+  if (!user) throw new Error('Username or password is incorrect')
+
   const isMatch = bcrypt.compare(password, user.password)
   if (!isMatch)
     return res.json({ message: 'Username or password is incorrect' })
   const token = generateToken(user._id)
   delete user.password
   res.json({ message: 'Login successfully !', user, token })
-}
+})
