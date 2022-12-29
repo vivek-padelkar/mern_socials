@@ -2,20 +2,14 @@ import { useState } from 'react'
 import {
   Box,
   Button,
-  TexField,
   useMediaQuery,
   Typography,
   useTheme,
   TextField,
 } from '@mui/material'
-import {
-  BorderClear,
-  EditOutlined,
-  FormatUnderlined,
-} from '@mui/icons-material'
+import { EditOutlined } from '@mui/icons-material'
 import { Formik } from 'formik'
-import * as yup from 'yup'
-import { Navigate, useAsyncValue, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { setLogin } from 'states'
 import Dropzone from 'react-dropzone'
@@ -26,13 +20,13 @@ import {
   initialValueRegister,
   initialValuesLogin,
 } from './validationSchema'
-import { borderRadius } from '@mui/system'
 import { LIGHTBROWN, DARKBROWN } from '../../colorConstants'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
+
 const Form = () => {
   const [pageType, setPageType] = useState('login')
-  const [error, setError] = useState(null)
+
   const { palette } = useTheme()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -41,42 +35,51 @@ const Form = () => {
   const isRegister = pageType === 'register'
 
   const register = async (values, onSubmitProps) => {
-    const formData = new FormData()
-    for (let value in values) {
-      formData.append(value, values[value])
-    }
-    formData.append('picturePath', values.picture.name)
-    const { data } = await axios.post('/auth/register', formData)
-    onSubmitProps.resetForm()
-    if (data) {
-      setPageType('login')
+    try {
+      const formData = new FormData()
+      for (let value in values) {
+        formData.append(value, values[value])
+      }
+      formData.append('picturePath', values.picture.name)
+      const { data } = await axios.post('/api/auth/register', formData)
+      onSubmitProps.resetForm()
+      if (data) {
+        console.log(JSON.stringify(data))
+        setLogin(data)
+        setPageType('login')
+        toast.success('Register Successfull')
+      }
+    } catch (error) {
+      toast.error(error.response.data.message)
+      console.log('error from Register' + JSON.stringify(error))
     }
   }
 
   const login = async (values, onSubmitProps) => {
     try {
-      console.log('i am triggreed')
       const headers = {
         headers: {
           contentType: 'Application/json',
         },
       }
-      console.log('awaiting')
       const { data } = await axios.post(
         '/api/auth/login',
-        JSON.stringify(values),
+        { email: values.email, password: values.password },
         headers
       )
       console.log(JSON.stringify(data))
       onSubmitProps.resetForm()
       if (data) {
-        setError(null)
+        console.log(data.user)
+        console.log('token: ' + data.token)
+        console.log(JSON.stringify(data))
         dispatch(setLogin({ user: data.user, token: data.token }))
         navigate('/home')
+        toast.success('Login Successfull')
       }
     } catch (error) {
-      toast.error(error.response.data.message)
-      console.log('i am here error' + JSON.stringify(error))
+      toast.error(error.response ? error.response.data.message : error.message)
+      console.log('error from login' + JSON.stringify(error))
     }
   }
 
@@ -92,7 +95,7 @@ const Form = () => {
   return (
     <Formik
       onSubmit={handleFormSubmit}
-      initialValues={initialValueRegister}
+      initialValues={isLogin ? initialValuesLogin : initialValueRegister}
       validationSchema={isLogin ? loginSchema : registerSchema}
     >
       {({

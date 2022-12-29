@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
 import { themeSettings } from 'theme'
-import NavBarPage from 'scence/navBar'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -24,6 +23,7 @@ toast.configure({
 
 function App() {
   const mode = useSelector((state) => state.mode)
+  const isAuth = useSelector((state) => state.token)
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode])
 
   return (
@@ -31,11 +31,16 @@ function App() {
       <BrowserRouter>
         <CssBaseline />
         <ThemeProvider theme={theme}>
-          {/* <NavBarPage /> */}
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/profile/:userid" element={<ProfilePage />} />
+            <Route
+              path="/home"
+              element={isAuth ? <HomePage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/profile/:userid"
+              element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
+            />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
